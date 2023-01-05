@@ -16,9 +16,10 @@ return new class extends Migration
         Schema::create('checks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('site_id')->constrained()->cascadeOnDelete();
-            $table->string('result');
-            $table->integer('status');
+            $table->string('status');
+            $table->jsonb('response');
             $table->integer('duration');
+            $table->timestamp('completed_at')->nullable();
             $table->timestamps();
         });
     }

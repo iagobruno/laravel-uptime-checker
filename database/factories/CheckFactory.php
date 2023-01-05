@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Enums\CheckResult;
+use App\Enums\CheckStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,9 +18,12 @@ class CheckFactory extends Factory
     public function definition()
     {
         return [
-            'result' => fake()->randomElement(CheckResult::cases()),
-            'status' => fake()->randomElement([200, 201, 202, 204, 206, 300, 301, 302, 307, 308, 400, 401, 403, 404, 405, 408, 422, 429, 500, 502, 503]),
+            'status' => $status = fake()->randomElement(CheckStatus::cases()),
             'duration' => fake()->numberBetween(50, 2000),
+            'completed_at' => $status === CheckStatus::Completed ? now() : null,
+            'response' => [
+                'http_status' => fake()->randomElement([200, 201, 202, 204, 206, 300, 301, 302, 307, 308, 400, 401, 403, 404, 405, 408, 422, 429, 500, 502, 503]),
+            ],
         ];
     }
 }

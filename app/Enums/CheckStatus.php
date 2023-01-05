@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum CheckResult: string
+enum CheckStatus: string
 {
     case Started = 'started';
     case Completed = 'completed';
