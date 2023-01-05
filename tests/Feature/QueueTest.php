@@ -61,5 +61,5 @@ test('O CheckSiteJob deve fazer a checagem corretamente', function () {
     $site->load(['checks', 'lastCheck']);
     expect($site->checks->count())->toEqual(1);
     expect($site->lastCheck->status)->toBe(CheckStatus::Completed);
-    expect($site->lastCheck->completed_at)->toBeInstanceOf(\Carbon\Carbon::class);
+    expect($site->lastCheck->finished_at)->toBeInstanceOf(\Carbon\Carbon::class);
 });

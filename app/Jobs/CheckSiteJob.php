@@ -44,7 +44,7 @@ class CheckSiteJob implements ShouldQueue
         $this->site->checks()->create([
             'status' => $response->successful() ? CheckStatus::Completed : CheckStatus::Failed,
             'duration' => $duration,
-            'completed_at' => $response->successful() ? now() : null,
+            'finished_at' => $response->successful() ? now() : null,
             'response' => [
                 'http_status' => $response->status(),
             ],

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('status');
             $table->jsonb('response');
             $table->integer('duration');
-            $table->timestamp('completed_at')->nullable();
+            $table->timestamp('finished_at')->nullable();
             $table->timestamps();
         });
     }
