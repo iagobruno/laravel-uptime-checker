@@ -36,7 +36,7 @@ class CheckSiteJob implements ShouldQueue
     {
         $time_start = microtime(true);
 
-        $response = Http::timeout(60)->get('https://google.com');
+        $response = Http::timeout(60)->get($this->site->url);
 
         $time_end = microtime(true);
         $duration = $time_end - $time_start;
