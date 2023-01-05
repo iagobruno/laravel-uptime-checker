@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\Url;
+use App\Models\Site;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         $user = User::factory()->create();
 
-        Url::factory(5)
+        Site::factory(5)
             ->for($user)
             ->hasChecks(10)
             ->create();

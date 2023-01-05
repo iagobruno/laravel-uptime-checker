@@ -12,8 +12,8 @@ class Check extends Model
 
     protected $guarded = ['id'];
 
-    public function url(): BelongsTo
+    public function site(): BelongsTo
     {
-        return $this->belongsTo(Url::class);
+        return $this->belongsTo(Site::class);
     }
 }

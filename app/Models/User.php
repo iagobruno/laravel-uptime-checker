@@ -21,8 +21,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function urls(): HasMany
+    public function sites(): HasMany
     {
-        return $this->hasMany(Url::class);
+        return $this->hasMany(Site::class);
     }
 }

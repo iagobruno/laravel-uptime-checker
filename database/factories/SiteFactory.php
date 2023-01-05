@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Url>
  */
-class UrlFactory extends Factory
+class SiteFactory extends Factory
 {
     /**
      * Define the model's default state.
