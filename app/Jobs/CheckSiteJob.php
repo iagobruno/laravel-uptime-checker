@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Enums\CheckStatus;
-use App\Models\Site;
+use App\Models\{Check, Site};
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -23,6 +23,7 @@ class CheckSiteJob implements ShouldQueue
      */
     public function __construct(
         public Site $site,
+        public Check $check,
     ) {
         //
     }
@@ -34,6 +35,7 @@ class CheckSiteJob implements ShouldQueue
      */
     public function handle()
     {
+        $this->check->update(['status' => CheckStatus::In_Progress]);
         $time_start = microtime(true);
 
         $response = Http::timeout(60)->get($this->site->url);
@@ -41,10 +43,10 @@ class CheckSiteJob implements ShouldQueue
         $time_end = microtime(true);
         $duration = $time_end - $time_start;
 
-        $this->site->checks()->create([
+        $this->check->update([
             'status' => $response->successful() ? CheckStatus::Completed : CheckStatus::Failed,
             'duration' => $duration,
-            'finished_at' => $response->successful() ? now() : null,
+            'finished_at' => now(),
             'response' => [
                 'http_status' => $response->status(),
             ],

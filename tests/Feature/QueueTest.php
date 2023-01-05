@@ -15,7 +15,7 @@ test('Sites sem nenhuma checagem devem ser adicionados a fila', function () {
     $site = Site::factory()->forUser()->create();
 
     Queue::fake();
-    Artisan::call('schedule:run');
+    Artisan::call('cron:run-site-checks');
 
     Queue::assertPushed(function (CheckSiteJob $job) use ($site) {
         return $job->site->id === $site->id;
@@ -29,7 +29,7 @@ test('Sites que foram checados recentemente não devem ser adicionados a fila', 
         ->create();
 
     Queue::fake();
-    Artisan::call('schedule:run');
+    Artisan::call('cron:run-site-checks');
 
     Queue::assertNotPushed(CheckSiteJob::class);
     // expect($site->checks->count())->toEqual(1);
@@ -43,7 +43,7 @@ test('Sites que foram checados a muito tempo devem ser adicionados a fila', func
         ->create();
 
     Queue::fake();
-    Artisan::call('schedule:run');
+    Artisan::call('cron:run-site-checks');
 
     Queue::assertPushed(function (CheckSiteJob $job) use ($site) {
         return $job->site->id === $site->id;
@@ -56,7 +56,7 @@ test('Sites que foram checados a muito tempo devem ser adicionados a fila', func
 test('O CheckSiteJob deve fazer a checagem corretamente', function () {
     $site = Site::factory()->forUser()->create();
 
-    Artisan::call('schedule:run');
+    Artisan::call('cron:run-site-checks');
 
     $site->load(['checks', 'lastCheck']);
     expect($site->checks->count())->toEqual(1);

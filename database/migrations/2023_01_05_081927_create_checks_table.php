@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('site_id')->constrained()->cascadeOnDelete();
             $table->string('status');
-            $table->jsonb('response');
-            $table->integer('duration');
+            $table->jsonb('response')->nullable();
+            $table->integer('duration')->nullable();
             $table->timestamp('finished_at')->nullable();
             $table->timestamps();
         });
