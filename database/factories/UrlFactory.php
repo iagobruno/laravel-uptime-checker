@@ -17,8 +17,7 @@ class UrlFactory extends Factory
     public function definition()
     {
         return [
-            'url' => 'https://github.com',
-            'last_checked_at' => null,
+            'url' => 'https://github.com/' . fake()->userName(),
         ];
     }
 }

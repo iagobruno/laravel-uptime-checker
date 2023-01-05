@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\{BelongsTo};
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany, HasOne};
+use Illuminate\Database\Eloquent\Builder;
 
 class Url extends Model
 {
@@ -12,19 +13,27 @@ class Url extends Model
 
     protected $guarded = ['id'];
 
-    protected $casts = [
-        'last_checked_at' => 'datetime',
-    ];
+    protected $casts = [];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function scopeNeedToBeChecked(\Illuminate\Database\Eloquent\Builder $query)
+    public function checks(): HasMany
+    {
+        return $this->hasMany(Check::class);
+    }
+
+    public function lastCheck(): HasOne
+    {
+        return $this->hasOne(Check::class)->latestOfMany();
+    }
+
+    public function scopeRequiresCheck(Builder $query)
     {
         return $query
-            ->whereNull('last_checked_at')
-            ->orWhere('last_checked_at', '<=', now()->subMinutes(10));
+            ->doesntHave('checks')
+            ->orWhereRelation('lastCheck', 'created_at', '<=', now()->subMinutes(10));
     }
 }
