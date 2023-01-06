@@ -26,4 +26,25 @@ class CheckFactory extends Factory
             ],
         ];
     }
+
+    public function successful()
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => CheckStatus::Successful,
+        ]);
+    }
+
+    public function failure()
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => CheckStatus::Failure,
+        ]);
+    }
+
+    public function finishedAt(\Carbon\Carbon $date)
+    {
+        return $this->state(fn (array $attributes) => [
+            'finished_at' => $date,
+        ]);
+    }
 }
