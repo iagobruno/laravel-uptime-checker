@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\CheckStatus;
+use App\Events\CheckStatusChanged;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,5 +23,19 @@ class Check extends Model
     public function site(): BelongsTo
     {
         return $this->belongsTo(Site::class);
+    }
+
+
+    public static function booted()
+    {
+        static::updated(function (Check $check) {
+            if ($check->wasChanged('status')) {
+                CheckStatusChanged::dispatch(
+                    $check,
+                    $check->status,
+                    $check->getOriginal('status'),
+                );
+            }
+        });
     }
 }
