@@ -5,7 +5,7 @@ namespace App\Enums;
 enum CheckStatus: string
 {
     case Queued = 'queued';
-    case In_Progress = 'in_progress';
-    case Completed = 'completed';
-    case Failed = 'failed';
+    case InProgress = 'in_progress';
+    case Successful = 'successful';
+    case Failure = 'failure';
 }

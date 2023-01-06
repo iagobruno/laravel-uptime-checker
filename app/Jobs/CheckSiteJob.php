@@ -35,7 +35,7 @@ class CheckSiteJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->check->update(['status' => CheckStatus::In_Progress]);
+        $this->check->update(['status' => CheckStatus::InProgress]);
         $time_start = microtime(true);
 
         $response = Http::timeout(60)->get($this->site->url);
@@ -44,7 +44,7 @@ class CheckSiteJob implements ShouldQueue
         $duration = $time_end - $time_start;
 
         $this->check->update([
-            'status' => $response->successful() ? CheckStatus::Completed : CheckStatus::Failed,
+            'status' => $response->successful() ? CheckStatus::Successful : CheckStatus::Failure,
             'duration' => $duration,
             'finished_at' => now(),
             'response' => [
